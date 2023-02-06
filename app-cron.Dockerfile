@@ -1,9 +1,9 @@
 FROM aboozar/nginx-php-base:7.1
 
 LABEL Maintainer="Aboozar Ghaffari <aboozar.ghf@gmail.com>"
-LABEL Name="Laravel crontab container"
+LABEL Name="Laravel schedule container"
 LABEL Version="20230202"
-LABEL TargetImageName="aboozar/smsator"
+LABEL TargetImageName="aboozar/laravel-schedule"
 
 # [Optional] Set the default/non-root user. Omit if you want to keep the default as root.
 USER nonroot

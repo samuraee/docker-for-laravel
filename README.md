@@ -25,6 +25,12 @@
 :cyclone: You can handle all these features in only one docker container but I have separated 
 them to make them more maintainable for complicated applications.
 
+# Currently supports:
+| PHP version | Branch Name | Tested in production |
+| :---         |     :---:      |          :---: |
+| PHP 8.1   | php8.1     | :white_check_mark:    |
+| PHP 8.2   | php8.2     | :warning:    |
+
 # Installation:
-- :fish: [Basic usage](https://github.com/samuraee/docker-for-laravel/blob/master/BASIC_USAGE.md)
+- :fish: [Normal usage](https://github.com/samuraee/docker-for-laravel/blob/master/BASIC_USAGE.md)
 - :whale2: [Advanced usage](https://github.com/samuraee/docker-for-laravel/blob/master/PRO_USAGE.md)

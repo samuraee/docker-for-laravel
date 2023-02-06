@@ -26,10 +26,10 @@
 them to make them more maintainable for complicated applications.
 
 # Currently supports:
-| PHP version | Branch Name | Tested in production |
-| :---         |     :---:      |          :---: |
-| PHP 8.1   | php8.1     | :white_check_mark:    |
-| PHP 8.2   | php8.2     | :warning:    |
+| OS   | PHP version  | Branch Name    | Tested in production |
+| :--- | :---         |     :---:      |          :---:       |
+| Ubuntu 22.04.1 LTS/Jammy Jellyfish | PHP 8.1   | php8.1     | :white_check_mark:    |
+| Ubuntu 22.10/Kinetic Kudu          | PHP 8.2   | php8.2     | :warning:             |
 
 # Installation:
 - :fish: [Normal usage](https://github.com/samuraee/docker-for-laravel/blob/master/BASIC_USAGE.md)

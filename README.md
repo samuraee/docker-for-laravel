@@ -1,28 +1,41 @@
-# nginx-php-fpm-ssh
+# docker-for-laravel
 
 ## About
 
-Nginx + PHP-FPM + SSH Docker image by [Samuraee](https://github.com/samuraee).
+Nonroot Docker image for LAravel based projects by [Samuraee](https://github.com/samuraee).
 
-Compatible for Laravel concepts
+:dragon_face: Compatible with all Large scale Laravel concepts
 
+# Basic assumptions
+1. The entrypoint of all containers are supervisord process and the rest processes will be handle using **supervisord** facilities.
+2. Everything should be customizable such as non-root username, PHP version, nodejs version, timezone, composer version, pecl packages and etc
+3. I have hold some apt packages by using `apt-mark hold` command to prevent unwanted upgrades. eg: `apt-mark hold php8.1`
+4. Each PHP version has it's own branch for example for using PHP 8.2 use git branch `php8.2`
 
-All processes through this container handled by using Supervisord.
-You can deploy every service by customizing supervisor config files like what you can see in container folder
+# Container(s) Architecture:
+:tophat: I assumed that you will have the following docker containers in your application. It is obvious that not all of these containers are necessary for all applications.
+1. **laravel-for-web** container that included nginx + fpm to handle the web part of the project
+2. **laravel-for-queue** container that handles Laravel's queue workers
+3. **laravel-for-cron** container that handles Laravel's schedule tasks
+4. **laravel-for-socket** container that handles Laravel's websocket
 
+:cyclone: You can handle all these features in only one docker container but I separated them to make them more maintainable for complicated applications
 
+# Installation
 
-## STEP 1: Build Os image based on Debian
-This image included sshd, nginx and also nodejs from official apt repository
+### STEP 0: Copy all the files from the repository to the root folder of your Laravel project
 
-### build Ubuntu jammy/22.04 including general packages 
+### STEP 1: Build the Os image based on Ubuntu
+This image install supervisor, nginx and also nodejs from the official apt repository
+
+#### build Ubuntu jammy/22.04 including general packages  
 - Arguments (ARG):
 ```
-- NONROOT_USER         eg, iamnotroot, nonroot, noone, ...
+NONROOT_USER         eg, iamnotroot, nonroot, noone, ... [default: iamnotroot]
 ```
 - Enviroment variables (ENV):
 ```
-- TZ                   eg: Asia/Tehran
+TZ                   eg: Europe/Berlin, Asia/Tehran, ... [default: Asia/Tehran]
 ```
 
 ```bash
@@ -32,13 +45,13 @@ docker build --build-arg NONROOT_USER=iamnotroot \
     -t aboozar/ubuntu-for-laravel-os:22.04 .
 ```
 
-## STEP 2: Build PHP base image
+### STEP 2: Build PHP base image using STEP 1 output image as FROM image
 
 - Arguments (ARG):
 ```
-PECL_PACKAGES        eg, grpc apcu protobuf mcrypt
-NODE_VERSION         eg, current, lts, 16, 18, 19
-COMPOSER_VERSION     eg, -stable, --version=2.*
+PECL_PACKAGES        eg, grpc apcu protobuf mcrypt [default: apcu mcrypt]
+NODE_VERSION         eg, current, lts, 16, 18, 19 [default: current]
+COMPOSER_VERSION     eg, -stable, --version=2.* [default: -stable]
 ```
 
 ```
@@ -49,48 +62,64 @@ docker build --build-arg PECL_PACKAGES="apcu mcrypt" \
     -t aboozar/ubuntu-for-laravel-base:8.1 .
 ```
 
-# Run final application container"
+## Create final docker images
 
-## Config files:
-First of all, customize the following files based on your desired configs
-Mandatory steps:
-If you chose a NONROOT_USER except the given one (iamnotroot) change user and group in the following files
+### Customizations:
+
+-  :exclamation: Mandatory steps:
+1. If you have chosen a NONROOT_USER different than the default (iamnotroot), change user and group in the following files before build
+`
+deployment/docker/{APP_ENV}/php/www.conf line: 23, 24, 48, 49
+`
+- :grey_exclamation: Optional steps:
+1. Enable or disable your STEP 2 installed pecl modules (PECL_PACKAGES) in:
+`
+deployment/docker/global/php/modules.ini
+`
+2. Customize your `php.ini` file in: 
+`deployment/docker/{APP_ENV}/php/php.ini`
+2. Customize your nginx virtualhost in:
+`
+deployment/docker/{APP_ENV}/nginx/vhost.conf
+`
+
+### Create all-in-one application container (recommended for small projects)
+See `all-in-one.Dockerfile`
 ```
-deployment/docker/global/nginx/nginx.conf
-deployment/docker/${APP_ENV}/php/www.conf
-
+docker build -f all-in-one.Dockerfile \
+    -t aboozar/laravel-all-in-one .
 ```
 
-```
-/etc/ssh/sshd_config
-/etc/nginx/nginx.conf
-/etc/nginx/sites-enabled/default
-# php-fpm config
-/etc/php/${PHP_VERSION}/fpm/pool.d/www.conf
-# php modules
-/etc/php/${PHP_VERSION}/mods-available/modules.conf
-/etc/supervisord.d/web-px.ini    # for web container
-/etc/supervisord.d/cron-px.ini   # for cron container
-/etc/supervisord.d/queue-px.ini  # for queue container
-```
+### Create seperated application containers (recommended for mid/large projects)
 
-Ideally the above ones should be mounted from docker host
-and container nginx configuration (see vhost.conf for example),
-site files and place to right logs to.
+#### Build laravel web Dockerfile (web container)
 
-
-## Sample laravel app Dockerfile (web contaner) with PHP 7.1
-
-See `example-web.Dockerfile`
+See `app-web.Dockerfile`
 ```
 docker build -f app-web.Dockerfile \
     -t aboozar/laravel-app-web .
 ```
 
-## Sample laravel queue Dockerfile (queue contaner) with PHP 7.1
+#### Build laravel queue Dockerfile (queue container)
 
-See `example-queue.Dockerfile`
+See `app-queue.Dockerfile`
+```
+docker build -f app-queue.Dockerfile \
+    -t aboozar/laravel-app-queue .
+```
 
-## Sample laravel cron Dockerfile (cron contaner) with PHP 7.1
+#### Build laravel cron Dockerfile (cron container)
 
-See `example-cron.Dockerfile`
+See `app-cron.Dockerfile`
+```
+docker build -f app-cron.Dockerfile \
+    -t aboozar/laravel-app-cron .
+```
+
+#### Build laravel cron Dockerfile (socket container)
+
+See `app-socket.Dockerfile`
+```
+docker build -f app-socket.Dockerfile \
+    -t aboozar/laravel-app-socket .
+```

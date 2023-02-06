@@ -2,10 +2,10 @@
 
 ## About
 
-:copyright: Nonroot & Multi-Env Docker for Laravel 9+ projects by [Samuraee](https://github.com/samuraee).
-:dragon_face:  Compatible with all Large scale Laravel concepts
-:dragon_face:  Compatible with Gitlab CI/CD concepts
-:dragon_face:  Compatible with Kubernetes concepts
+- :copyright: Nonroot & Multi-Env Docker for Laravel 9+ projects by [Samuraee](https://github.com/samuraee).
+- :dragon_face: Compatible with all Large scale Laravel concepts
+- :dragon_face: Compatible with Gitlab CI/CD concepts
+- :dragon_face: Compatible with Kubernetes concepts
 
 # Basic assumptions
 1. The entrypoint of all containers are supervisord process and the rest processes will be handle using **supervisord** facilities.

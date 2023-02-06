@@ -2,15 +2,18 @@
 
 ## About
 
-Nonroot Docker image for LAravel based projects by [Samuraee](https://github.com/samuraee).
-
-:dragon_face: Compatible with all Large scale Laravel concepts
+:copyright: Nonroot & Multi-Env Docker for Laravel 9+ projects by [Samuraee](https://github.com/samuraee).
+:dragon_face:  Compatible with all Large scale Laravel concepts
+:dragon_face:  Compatible with Gitlab CI/CD concepts
+:dragon_face:  Compatible with Kubernetes concepts
 
 # Basic assumptions
 1. The entrypoint of all containers are supervisord process and the rest processes will be handle using **supervisord** facilities.
-2. Everything should be customizable such as non-root username, PHP version, nodejs version, timezone, composer version, pecl packages and etc
-3. I have hold some apt packages by using `apt-mark hold` command to prevent unwanted upgrades. eg: `apt-mark hold php8.1`
+2. Everything should be customizable such as non-root username, PHP version, nodejs version, timezone, composer version, pecl packages and etc.
+3. I have hold some apt packages by using `apt-mark hold` command to prevent unwanted upgrades. eg: `apt-mark hold php8.1`.
 4. Each PHP version has it's own branch for example for using PHP 8.2 use git branch `php8.2`
+5. You can use these dockerfiles in three different environemtn development, staging, production.
+6. The PHP `xdebug` feature is enabled in the development and staging environments.
 
 # Container(s) Architecture:
 :tophat: I assumed that you will have the following docker containers in your application. It is obvious that not all of these containers are necessary for all applications.

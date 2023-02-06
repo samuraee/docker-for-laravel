@@ -1,0 +1,41 @@
+version: '3.7'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: ./deploy/docker/general/app.Dockerfile
+      args:
+        APP_ENV: local
+    command: 'web'
+    restart: always
+    volumes:
+      - ./:/app
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - 127.0.0.1:${WEB_PORT:-8000}:8000
+
+  redis:
+    image: redis:alpine
+    command: redis-server --appendonly yes
+    restart: always
+    volumes:
+      - redis-data:/data
+    ports:
+      - 127.0.0.1:${REDIS_PORT:-6379}:6379
+
+  mysql:
+    image: mysql:8.0-oracle
+    ports:
+      - 127.0.0.1:${DB_PORT:-3306}:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=${DB_DATABASE:-fulfillment}
+      - MYSQL_USER=${DB_USERNAME:-fulfillment}
+      - MYSQL_PASSWORD=${DB_PASSWORD:-fulfillment}
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:
+  redis-data:

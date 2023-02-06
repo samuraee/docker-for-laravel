@@ -1,5 +1,7 @@
 # docker-for-laravel
 
+![](https://miro.medium.com/max/1400/1*lThfRGpuoHA0rcB6SQfrsQ@2x.webp)
+
 ## About
 
 - :copyright: Nonroot & Multi-Env Docker for Laravel 9+ projects by [Samuraee](https://github.com/samuraee).

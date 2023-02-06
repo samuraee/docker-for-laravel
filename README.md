@@ -26,5 +26,5 @@
 them to make them more maintainable for complicated applications.
 
 # Installation:
-[basic usage](https://github.com/samuraee/docker-for-laravel/blob/master/BASIC_USAGE.md)
-[Advanced usage](https://github.com/samuraee/docker-for-laravel/blob/master/PRO_USAGE.md)
+- :fish: [basic usage](https://github.com/samuraee/docker-for-laravel/blob/master/BASIC_USAGE.md)
+- :whale2: [Advanced usage](https://github.com/samuraee/docker-for-laravel/blob/master/PRO_USAGE.md)

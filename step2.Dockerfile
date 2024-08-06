@@ -1,9 +1,9 @@
-FROM aboozar/ubuntu-for-laravel-os:22.04
+FROM samuraee/ubuntu-for-laravel-os:24.04
 
 LABEL Maintainer="Aboozar Ghaffari <aboozar.ghf@gmail.com>"
 LABEL Name="STEP 2: Ubuntu for laravel Docherfile including Nginx, PHP-FPM, NodeJs"
-LABEL Version="20230202"
-LABEL TargetImageName="aboozar/ubuntu-for-laravel-base:8.1"
+LABEL Version="8.3.x-1"
+LABEL TargetImageName="samuraee/ubuntu-for-laravel-base:8.3"
 
 ARG DEBIAN_FRONTEND="noninteractive"
 # pecl packages to install eg: "grpc apcu protobuf mcrypt"
@@ -43,8 +43,8 @@ RUN apt update && apt install -yq --no-install-recommends \
     && apt autoremove --yes \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /tmp/* \
-    #freeze PHP version to v8.1 
-    && apt-mark hold php8.1
+    #freeze PHP version to v8.3 
+    && apt-mark hold php8.3
 
 RUN pecl channel-update pecl.php.net \
     && pecl install ${PECL_PACKAGES}

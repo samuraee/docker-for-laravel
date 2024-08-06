@@ -4,7 +4,7 @@
 
 ## About
 
-- :copyright: Nonroot & Multi-Env Docker for Laravel 9+ projects by [Samuraee](https://github.com/samuraee).
+- :copyright: Nonroot & Multi-Env Docker for Laravel based projects by [Samuraee](https://github.com/samuraee).
 - :dragon_face: Compatible with all large scale and high load Laravel applications concepts
 - :dragon_face: Compatible with Gitlab CI/CD concepts
 - :dragon_face: Compatible with Kubernetes concepts
@@ -12,7 +12,7 @@
 # Basic assumptions
 1. The entrypoint of all containers are supervisord process and the rest processes will be handle using **supervisord** facilities.
 2. Everything should be customizable such as non-root username, PHP version, nodejs version, timezone, composer version, pecl packages and etc.
-3. I have hold some apt packages by using `apt-mark hold` command to prevent unwanted upgrades. eg: `apt-mark hold php8.1`.
+3. I have hold some apt packages by using `apt-mark hold` command to prevent unwanted upgrades. eg: `apt-mark hold php8.3`.
 4. Each PHP version has it's own **branch** for example for using PHP 8.2 use git branch `php8.2`
 5. You can use these dockerfiles in three different environemtn `development`, `staging`, `production`.
 6. The PHP `xdebug` feature is enabled in the development and staging environments.
@@ -30,9 +30,9 @@ them to make them more maintainable for complicated applications.
 # Currently supports:
 | OS   | PHP version  | Branch Name    | Tested in production |
 | :--- | :---         |     :---:      |          :---:       |
-| Ubuntu 22.04.1 LTS/Jammy Jellyfish | PHP 8.1   | php8.1     | :white_check_mark:    |
+| Ubuntu 24.04 LTS/Noble Numbat | PHP 8.3   | php8.3     | :white_check_mark:    |
 | Ubuntu 22.10/Kinetic Kudu          | PHP 8.2   | php8.2     | :warning:             |
 
 # Installation:
-- :fish: [Normal usage](https://github.com/samuraee/docker-for-laravel/blob/master/BASIC_USAGE.md)
-- :whale2: [Advanced usage](https://github.com/samuraee/docker-for-laravel/blob/master/PRO_USAGE.md)
+- :fish: [Normal usage](https://github.com/samuraee/docker-for-laravel/blob/master/USAGE_BASIC.md)
+- :whale2: [Advanced usage](https://github.com/samuraee/docker-for-laravel/blob/master/USAGE_PRO.md)

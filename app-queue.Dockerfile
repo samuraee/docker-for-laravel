@@ -1,11 +1,11 @@
-FROM aboozar/ubuntu-for-laravel-base:8.1
+FROM samuraee/ubuntu-for-laravel-base:8.3
 
 LABEL Maintainer="Aboozar Ghaffari <aboozar.ghf@gmail.com>"
 LABEL Name="Laravel app - queue container"
-LABEL Version="20230202"
-LABEL TargetImageName="aboozar/laravel-app-web"
+LABEL Version="8.3.x-1"
+LABEL TargetImageName="samuraee/laravel-app-web"
 
-ARG NONROOT_USER=iamnotroot
+ARG NONROOT_USER=samuraee
 ARG APP_ENV=production
 ENV APP_ENV=$APP_ENV
 
@@ -17,13 +17,13 @@ COPY deployment/docker/global/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY deployment/docker/${APP_ENV}/nginx/vhost.conf /etc/nginx/sites-enabled/default
 
 # add any PHP customization you need
-COPY deployment/docker/global/php/8.1/php-fpm.conf /etc/php/8.1/fpm/php-fpm.conf
-COPY deployment/docker/global/php/modules.ini /etc/php/8.1/fpm/conf.d/10-modules.ini
-COPY deployment/docker/global/php/modules.ini /etc/php/8.1/cli/conf.d/10-modules.ini
+COPY deployment/docker/global/php/php-fpm.conf /etc/php/8.3/fpm/php-fpm.conf
+COPY deployment/docker/global/php/modules.ini /etc/php/8.3/fpm/conf.d/10-modules.ini
+COPY deployment/docker/global/php/modules.ini /etc/php/8.3/cli/conf.d/10-modules.ini
 # env-based PHP config files
-COPY deployment/docker/${APP_ENV}/php/www.conf /etc/php/8.1/fpm/pool.d/www.conf
-COPY deployment/docker/${APP_ENV}/php/php.ini /etc/php/8.1/fpm/php.ini
-COPY deployment/docker/${APP_ENV}/php/php.ini /etc/php/8.1/cli/php.ini
+COPY deployment/docker/${APP_ENV}/php/www.conf /etc/php/8.3/fpm/pool.d/www.conf
+COPY deployment/docker/${APP_ENV}/php/php.ini /etc/php/8.3/fpm/php.ini
+COPY deployment/docker/${APP_ENV}/php/php.ini /etc/php/8.3/cli/php.ini
 
 # main supervisord config   
 COPY deployment/docker/global/supervisor/supervisord.conf /etc/supervisor/supervisord.conf

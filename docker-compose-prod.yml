@@ -25,14 +25,14 @@ services:
       - 127.0.0.1:${REDIS_PORT:-6379}:6379
 
   mysql:
-    image: mysql:8.0-oracle
+    image: mysql:8.1-oracle
     ports:
       - 127.0.0.1:${DB_PORT:-3306}:3306
     environment:
       - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=${DB_DATABASE:-fulfillment}
-      - MYSQL_USER=${DB_USERNAME:-fulfillment}
-      - MYSQL_PASSWORD=${DB_PASSWORD:-fulfillment}
+      - MYSQL_DATABASE=${DB_DATABASE:-samuraee}
+      - MYSQL_USER=${DB_USERNAME:-samuraee}
+      - MYSQL_PASSWORD=${DB_PASSWORD:-samuraee}
     volumes:
       - mysql-data:/var/lib/mysql
 

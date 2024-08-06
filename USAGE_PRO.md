@@ -4,10 +4,10 @@
 ### STEP I: Build the Os image based on Ubuntu
 This image install supervisor, nginx and also nodejs from the official apt repository
 
-#### build Ubuntu jammy/22.04 including general packages  
+#### build Ubuntu noble/24.04 including general packages  
 - Arguments (ARG):
 ```
-NONROOT_USER         eg, iamnotroot, nonroot, noone, ... [default: iamnotroot]
+NONROOT_USER         eg, mrnobody, nonroot, ... [default: mrnobody]
 ```
 - Enviroment variables (ENV):
 ```
@@ -15,10 +15,11 @@ TZ                   eg: Europe/Berlin, Asia/Tehran, ... [default: Asia/Tehran]
 ```
 
 ```bash
-docker build --build-arg NONROOT_USER=iamnotroot \
+docker buildx build --push \
     -f step1.Dockerfile \
-    -t aboozar/ubuntu-for-laravel-os:jammy \
-    -t aboozar/ubuntu-for-laravel-os:22.04 .
+    --platform linux/amd64,linux/arm64/v7,linux/arm64/v8 \
+    --tag samuraee/ubuntu-for-laravel-os:noble \
+    --tag samuraee/ubuntu-for-laravel-os:24.04 .
 ```
 
 ### STEP II: Build PHP base image using STEP 1 output image as FROM image
@@ -31,11 +32,13 @@ COMPOSER_VERSION     eg, -stable, --version=2.* [default: -stable]
 ```
 
 ```
-docker build --build-arg PECL_PACKAGES="apcu mcrypt" \
-    --build-arg NODE_VERSION=current \
+docker buildx build --push \
+    --build-arg PECL_PACKAGES="mcrypt" \
+    --build-arg NODE_VERSION=18 \
     --build-arg COMPOSER_VERSION="-stable" \
     -f step2.Dockerfile \
-    -t aboozar/ubuntu-for-laravel-base:8.1 .
+    --platform linux/amd64,linux/arm64/v7,linux/arm64/v8 \
+    --tag aboozar/ubuntu-for-laravel-base:8.3 .
 ```
 
 ## STEP III: Create final docker images
@@ -43,9 +46,9 @@ docker build --build-arg PECL_PACKAGES="apcu mcrypt" \
 ### Customizations:
 
 -  :exclamation: Mandatory steps:
-1. If you have chosen a NONROOT_USER different than the default (iamnotroot), change user and group in the following files before build
+1. If you have chosen a NONROOT_USER different than the default (mrnobody), change user and group in the following files before build
 `
-deployment/docker/{APP_ENV}/php/www.conf line: 23, 24, 48, 49
+deployment/docker/{APP_ENV}/php/www.conf lines: 23, 24, 48, 49
 `
 - :grey_exclamation: Optional steps:
 1. Enable or disable your STEP 2 installed pecl modules (PECL_PACKAGES) in:

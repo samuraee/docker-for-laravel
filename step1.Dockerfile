@@ -1,14 +1,11 @@
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
 LABEL Maintainer="Aboozar Ghaffari <aboozar.ghf@gmail.com>"
-LABEL Name="STEP 1: Ubuntu jammy/22.04 version including general apt pckages"
-LABEL Version="20230202"
-LABEL TargetImageName="aboozar/ubuntu-for-laravel-os:22.04"
+LABEL Name="STEP 1: Ubuntu noble/24.04 version including general apt packages"
+LABEL Version="8.3.x-1"
+LABEL TargetImageName="samuraee/ubuntu-for-laravel-os:24.04"
 
 ARG DEBIAN_FRONTEND="noninteractive"
-ARG NONROOT_USER=iamnotroot
-ARG USER_UID=1000
-ARG USER_GID=$USER_UID
 ENV TZ "Asia/Tehran"
 
 RUN apt update \
@@ -27,6 +24,7 @@ RUN apt update \
         npm \
         sudo \
         supervisor \
+        tmux \
         tzdata \
         wget \
         zlib1g-dev \
@@ -36,12 +34,6 @@ RUN apt update \
     && rm -rf /tmp/* \
     && ln -fs /usr/share/zoneinfo/${TZ} /etc/localtime \ 
     && dpkg-reconfigure -f noninteractive tzdata
-
-# Create the non-root user
-RUN groupadd --gid $USER_GID $NONROOT_USER \
-    && useradd --uid $USER_UID --gid $USER_GID -m $NONROOT_USER \
-    && echo $NONROOT_USER ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$NONROOT_USER \
-    && chmod 0440 /etc/sudoers.d/$NONROOT_USER
 
 # give permission to required path to the generated non-root
 RUN mkdir -p /var/cache/nginx/ \
